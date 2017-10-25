@@ -31,7 +31,7 @@ namespace lab1iozad4
             {
                     string mess = Convert.ToString(stateInfo); //argument do watku - wiadomosc serwera
                     TcpClient client = server.AcceptTcpClient();  //ustanowienie polaczenia z klientem
-                lock (thisLock)
+                lock (client)
                 {
                     ThreadPool.QueueUserWorkItem(ThreadConnect, new object[] { client, mess }); //utworzenie watku polaczenia
                 }
