@@ -1,5 +1,6 @@
 //Autor: Przemyslaw Lapicz
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,15 +20,17 @@ namespace lab1io
 {
     class Program
     {
+        public static int ilosc = 0;
+        public static int suma = 0;
+
         static void ThreadProc(Object stateInfo)
         {
-            var index = (int)stateInfo;
+            ++ilosc;
+            var wartosc = (int)stateInfo;
+            Console.WriteLine("Watek " + ilosc + " zostal utworzony\nDodaje: " + wartosc);
+            Console.WriteLine();
+            suma += wartosc;
             Thread.Sleep(100);
-        }
-
-        static void ThreadSuma(Object stateInfo)
-        {
-
         }
 
         static void Main(string[] args)
@@ -48,8 +51,13 @@ namespace lab1io
             for (int i = 0; i < rozmiarTablicy; i++)
                 Console.Write(tab[i] + " ");
             Console.WriteLine("\n");
-
-
+            for(int i = 0; i < rozmiarTablicy; i++)
+            {
+                index = rand.Next(0, rozmiarTablicy - 1);
+                ThreadPool.QueueUserWorkItem(ThreadProc, tab[index]);
+            }
+            Thread.Sleep(5000);
+            Console.WriteLine("SUMA: " + suma);
             Console.ReadKey();
         }
     }
