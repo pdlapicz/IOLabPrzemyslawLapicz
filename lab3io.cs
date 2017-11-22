@@ -137,18 +137,19 @@ namespace lab3io
          *  Przetestuj działanie metody na adresie „http://www.feedforall.com/sample.xml”.
         */
         #region Zadanie 3
-        public async Task<XmlDocument> Zadanie3(string address)
+        public static async Task<string> Zadanie3()
         {
             WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            webClient.DownloadStringTaskAsync(new Uri("http://www.feedforall.com/sample.xml"));
-            return new XmlDocument();
+            //  webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+            string result = webClient.DownloadStringTaskAsync(new Uri("http://www.feedforall.com/sample.xml")).ToString();
+            Console.WriteLine(result);
+            return result;
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             string text = e.Result;
-            // … do something with result
+            Console.WriteLine(text);
         }
         #endregion
         /*5.	Zaimplementuj clientTask zgodnie ze wzorcem TAP. 
@@ -289,6 +290,12 @@ namespace lab3io
             #region Constructors
             #endregion
             #region Methods
+
+        /*    public Task ClientTask
+            {
+            //    get { return serverTask; }
+            } */
+
             public void Connect()
             {
                 client = new TcpClient();
@@ -360,6 +367,10 @@ namespace lab3io
             Console.WriteLine("main");
             Console.ReadKey();
             */
+            Task<string> task = Zadanie3();
+            task.Wait();
+
+
             }
         }
     }
